@@ -1,7 +1,9 @@
 from facepy import GraphAPI
 import os, json, sys
 
-def add_events_to_dict(events,event_IDs):
+new_events = 0
+
+def add_events_to_dict(events, event_IDs, city_name):
   for eid in event_IDs:
     if not events.has_key(eid):
       info_fql = """SELECT eid, name, attending_count, unsure_count, declined_count, not_replied_count, location, venue, start_time, end_time from event where eid =  """ + eid
@@ -17,7 +19,8 @@ def add_events_to_dict(events,event_IDs):
         del event['venue']
       
       events[eid] = event
-      print "Added event:", eid
+      print "Added event:%s for city %s"%(eid, city_name)
+      new_events += 1
 
 
 def add_city_events(city_name):
@@ -27,24 +30,23 @@ def add_city_events(city_name):
   if os.path.isfile("data/"+city_name+ ".json"):
     fo = open("data/"+ city_name +".json", "r")
     events = json.loads(fo.read())
-    print "read from", fo.name
-    print len(events), "events read"
+    #print "read from", fo.name
+    #print len(events), "events read"
     fo.close() 
   
   #Get all events in a city
-  a = graph.get('search?fields=location&q=\"'+ city_name + '\"&type=event&since=1325376000')
+  a = graph.get('search?fields=location&q=\"'+ city_name + '\"&type=event&since=0')
   event_IDs = [event['id'] for event in a['data']]      
-  add_events_to_dict(events, event_IDs)
+  add_events_to_dict(events, event_IDs, city_name)
 
 
   #Add to file
   fo = open("data/"+ city_name +".json", "w")
   json.dump(events, fo)
-  print "saving to", fo.name
+  #print "saving to", fo.name
   fo.close()
 
-sys.argv
-
+ 
 #Access token
 try:
   oath_file = open(sys.argv[1],'r')
@@ -63,6 +65,8 @@ try:
 
   for city in cities:
     add_city_events(city)
+  print "No new events to be added" if new_events == 0 else "A total of %s events added"%(new_events)
+  
 except:
   print "No valid access token found"
   print "Usage: python log-city-events.py access_token.txt"
