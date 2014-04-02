@@ -1,51 +1,7 @@
 from facepy import GraphAPI
-import os, json
+import os, json, sys
 
-#Access token
-access_token = "CAACEdEose0cBAOfZB9Q0cqZAKmB5ZAxIve6ZBuPZCnW5389PN4k6plEtJWrjyI2rkIGClaXkgTdcGRxKQAbIlnWLhhwhM3s5EXvwQjbFpRWJOuxtoqZCQToBQNFhyDNS18xMvUq00NV6FTrlfOQHZCZCVO5bZAZBAzF9Gh496gAex5SyOXicmtcnO15syRQ96nZA2U4KIFzBR3WpwZDZD"
-graph = GraphAPI(access_token)
-
-
-targetdir = "../data/"
-if not os.path.exists(targetdir):
-  os.mkdir(targetdir)
-  
-cities = ["Chicago", "London", "Montreal", "New York", "Ottawa", "Toronto", "Washington"]
-city_event_logfiles = [targetdir + city + "_events.json" for city in cities]
-
-#print city_event_logfiles
-
-
-
-"""
-eid = event_IDs[0]
-
-#Get event info
-info_fql = "SELECT eid, name, attending_count, unsure_count, declined_count, not_replied_count, location, venue, start_time, end_time from event where eid =  " + eid
-event_info = graph.fql(info_fql)
-
-
-events = {}
-events[eid] = event_info['data'][0] 
-
-
-fo = open("sample-events.json", "w")
-json.dump(events, fo)
-fo.close()
-
-fo = open("sample-events.json", "r")
-events2 = json.loads(fo.read())
-fo.close()
-
-print events
-print "------------------------"
-print events2
-
-print "Are these equal?"
-print "yes" if events == events2 else "no"
-"""
-
-def add_events_to_dict(event,event_IDs):
+def add_events_to_dict(events,event_IDs):
   for eid in event_IDs:
     if not events.has_key(eid):
       info_fql = """SELECT eid, name, attending_count, unsure_count, declined_count, not_replied_count, location, venue, start_time, end_time from event where eid =  """ + eid
@@ -61,26 +17,56 @@ def add_events_to_dict(event,event_IDs):
         del event['venue']
       
       events[eid] = event
+      print "Added event:", eid
 
 
-#Get all events in a city
-a = graph.get('search?fields=location&q=\"'+ cities[6] + 'Washington, DC\"&type=event&since=1388534400')
-event_IDs = [event['id'] for event in a['data']]      
-events = {}
-add_events_to_dict(events, event_IDs)
+def add_city_events(city_name):
+  events = {}
+  
+  #Open from file
+  if os.path.isfile("data/"+city_name+ ".json"):
+    fo = open("data/"+ city_name +".json", "r")
+    events = json.loads(fo.read())
+    print "read from", fo.name
+    print len(events), "events read"
+    fo.close() 
+  
+  #Get all events in a city
+  a = graph.get('search?fields=location&q=\"'+ city_name + '\"&type=event&since=1325376000')
+  event_IDs = [event['id'] for event in a['data']]      
+  add_events_to_dict(events, event_IDs)
 
 
-#Add to file
-fo = open("sample-events.json", "w")
-json.dump(events, fo)
-fo.close()
+  #Add to file
+  fo = open("data/"+ city_name +".json", "w")
+  json.dump(events, fo)
+  print "saving to", fo.name
+  fo.close()
 
-#Open from file
-fo = open("sample-events.json", "r")
-events2 = json.loads(fo.read())
-fo.close()
+sys.argv
 
-print "Are these equal?"
-print "yes" if events == events2 else "no"
+#Access token
+try:
+  oath_file = open(sys.argv[1],'r')
+  access_token = oath_file.read()
+  oath_file.close()
+  
+  graph = GraphAPI(access_token)
+
+  #Create a data directory if one does not exist  
+  targetdir = "data/"
+  if not os.path.exists(targetdir):
+    os.mkdir(targetdir)
+
+  #List of cities to query events from
+  cities = ["Chicago", "London", "Montreal", "New York", "Ottawa", "Toronto", "Washington", "Oslo"]
+
+  for city in cities:
+    add_city_events(city)
+except:
+  print "No valid access token found"
+  print "Usage: python log-city-events.py access_token.txt"
 
 
+    
+  
