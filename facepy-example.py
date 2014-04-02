@@ -1,6 +1,6 @@
 from facepy import GraphAPI
 
-access_token = "CAACEdEose0cBAKvIVo9zaVZA6qAJsn8TdYEbAQP7peWkL3vXJibMtPIbMdt3FKf19ubiN7IaLAc8f3DK1zmL9cuu7MNKy5PNSI9GrNP4d9XgswUV5UlULaLNrESZAaL82Ccbf2WmB7u8bC2GOheHZBspJSwSRCGj9CoIwWIyB8PdYfHtKcvYn9zzACjqdLTMsiOpdatTAZDZD"
+access_token = ""
 
 graph = GraphAPI(access_token)
 
