@@ -1589,6 +1589,19 @@
         "start_time": "2014-04-05T20:00:00+0200",
         "unsure_count": 0
     },
+    "209874429222312": {
+        "attending_count": 0,
+        "declined_count": 0,
+        "eid": 209874429222312,
+        "end_time": null,
+        "latitude": 51.5072,
+        "location": "London, United Kingdom",
+        "longitude": -0.1275,
+        "name": "Solyaris Digital&Management in London",
+        "not_replied_count": 0,
+        "start_time": "2014-04-10T13:00:00+0200",
+        "unsure_count": 0
+    },
     "210421259152080": {
         "attending_count": 49,
         "declined_count": 197,

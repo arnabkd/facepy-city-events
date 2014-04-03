@@ -362,6 +362,19 @@
         "start_time": "2014-04-03T19:30:00-0500",
         "unsure_count": 25
     },
+    "1393736737544787": {
+        "attending_count": 46,
+        "declined_count": 31,
+        "eid": 1393736737544787,
+        "end_time": "2014-05-19T02:00:00-0500",
+        "latitude": 41.949844622291,
+        "location": "Metro Chicago",
+        "longitude": -87.658814957124,
+        "name": "MOS DEF : LIVE IN CONCERT - CHICAGO, IL : 5-18-2014",
+        "not_replied_count": 1554,
+        "start_time": "2014-05-18T20:00:00-0500",
+        "unsure_count": 13
+    },
     "1398138257119717": {
         "attending_count": 104,
         "declined_count": 53,
@@ -3675,6 +3688,19 @@
         "not_replied_count": 0,
         "start_time": "2014-04-04T22:00:00-0500",
         "unsure_count": 87
+    },
+    "512160492197998": {
+        "attending_count": 61,
+        "declined_count": 190,
+        "eid": 512160492197998,
+        "end_time": "2014-06-08T04:00:00-0500",
+        "latitude": 41.8369,
+        "location": "Chicago, IL, United States",
+        "longitude": -87.6844,
+        "name": "AMBWP\u2665 Loving Fest Celebration (Day 2) - Chicago, IL",
+        "not_replied_count": 1209,
+        "start_time": "2014-06-07T10:00:00-0500",
+        "unsure_count": 72
     },
     "512570178852609": {
         "attending_count": 26,

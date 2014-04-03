@@ -4721,6 +4721,19 @@
         "start_time": "2014-04-19",
         "unsure_count": 9
     },
+    "616161345100543": {
+        "attending_count": 74,
+        "declined_count": 154,
+        "eid": 616161345100543,
+        "end_time": null,
+        "latitude": 43.64778158546,
+        "location": "Cherry Cola's Rock 'n' Rolla Cabaret & Lounge",
+        "longitude": -79.404258901513,
+        "name": "MARCH 15 - XPRIME (CD RELEASE) - Toronto w/ MUSHY CALLAHAN and THE BAXTERS",
+        "not_replied_count": 1493,
+        "start_time": "2014-03-15T21:30:00-0400",
+        "unsure_count": 34
+    },
     "619137198167081": {
         "attending_count": 224,
         "declined_count": 151,
