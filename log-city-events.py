@@ -3,6 +3,17 @@ import os, json, sys
 
 new_events = 0
 
+def add_friends_events(events, event_IDs):
+    friends_events_fql = """SELECT eid FROM event 
+    WHERE eid IN (
+           SELECT eid FROM event_member 
+           WHERE (uid IN (SELECT uid2 FROM friend WHERE uid1 = me())  OR uid = me())
+       )
+    """
+    results = graph.fql(friends_events_fql)
+    print results
+
+
 def add_events_to_dict(events, event_IDs, city_name):
   for eid in event_IDs:
     if not events.has_key(eid):
@@ -20,7 +31,7 @@ def add_events_to_dict(events, event_IDs, city_name):
       
       events[eid] = event
       print "Added event:%s for city %s"%(eid, city_name)
-      new_events += 1
+      #new_events += 1
 
 def add_city_events(city_name):
   events = {}
@@ -44,8 +55,10 @@ def add_city_events(city_name):
 
   #Add to file
   fo = open("data/"+ city_name +".json", "w")
-  json.dump(events, fo)
-  #print "saving to", fo.name
+  #json.dump(events, fo)
+  updated_events = json.dumps(events, sort_keys=True, indent=4, separators=(',', ': '))
+  fo.write(updated_events)
+  print "saving to", fo.name
   fo.close()
 
  
@@ -70,6 +83,7 @@ try:
       add_city_events(city)
     except:
       print sys.exc_info()[0]
+  
   print "No new events to be added" if new_events < 1 else "A total of %s events added"%(new_events)
   
 except:
