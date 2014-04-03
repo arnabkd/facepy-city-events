@@ -22,7 +22,6 @@ def add_events_to_dict(events, event_IDs, city_name):
       print "Added event:%s for city %s"%(eid, city_name)
       new_events += 1
 
-
 def add_city_events(city_name):
   events = {}
   
@@ -35,10 +34,13 @@ def add_city_events(city_name):
     fo.close() 
   
   #Get all events in a city
-  a = graph.get('search?fields=location&q=\"'+ city_name + '\"&type=event&since=0')
-  event_IDs = [event['id'] for event in a['data']]      
-  add_events_to_dict(events, event_IDs, city_name)
-
+  try:
+    a = graph.get('search?fields=location&q=\"'+ city_name + '\"&type=event&since=0')
+    event_IDs = [event['id'] for event in a['data']]   
+    add_events_to_dict(events, event_IDs, city_name)
+  except:
+    print "Something went wrong while getting graph data for ", city_name
+    print sys.exc_info()[0]
 
   #Add to file
   fo = open("data/"+ city_name +".json", "w")
@@ -64,10 +66,14 @@ try:
   cities = ["Chicago", "London", "Montreal", "New York", "Ottawa", "Toronto", "Washington", "Oslo"]
 
   for city in cities:
-    add_city_events(city)
-  print "No new events to be added" if new_events == 0 else "A total of %s events added"%(new_events)
+    try:
+      add_city_events(city)
+    except:
+      print sys.exc_info()[0]
+  print "No new events to be added" if new_events < 1 else "A total of %s events added"%(new_events)
   
 except:
+  print sys.exc_info()[0]
   print "No valid access token found"
   print "Usage: python log-city-events.py access_token.txt"
 
