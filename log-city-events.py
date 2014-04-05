@@ -1,7 +1,6 @@
 from facepy import GraphAPI
 import os, json, sys
-
-new_events = 0
+from datetime import datetime
 
 def add_friends_events(events, event_IDs):
     friends_events_fql = """SELECT eid FROM event 
@@ -16,8 +15,9 @@ def add_friends_events(events, event_IDs):
 
 def add_events_to_dict(events, event_IDs, city_name):
   for eid in event_IDs:
+    #print "Already added event %s"%(eid) if eid in events.keys() else "Adding event %s"%(eid)
     if not events.has_key(eid):
-      info_fql = """SELECT eid, name, attending_count, unsure_count, declined_count, not_replied_count, location, venue, start_time, end_time from event where eid =  """ + eid
+      info_fql = """SELECT eid,name ,description ,attending_count ,unsure_count ,declined_count ,not_replied_count,location ,venue ,start_time ,end_time  from event where eid =  """ + eid
       event_info = graph.fql(info_fql)
       event = event_info['data'][0]
       
@@ -30,8 +30,7 @@ def add_events_to_dict(events, event_IDs, city_name):
         del event['venue']
       
       events[eid] = event
-      print "Added event:%s for city %s"%(eid, city_name)
-      #new_events += 1
+      print "Added event:%s (%s) for city %s"%(eid, event['name'],city_name)
 
 def add_city_events(city_name):
   events = {}
@@ -60,6 +59,8 @@ def add_city_events(city_name):
   fo.write(updated_events)
   print "saving to", fo.name
   fo.close()
+  
+  return len(events.keys())
 
  
 #Access token
@@ -76,15 +77,18 @@ try:
     os.mkdir(targetdir)
 
   #List of cities to query events from
-  cities = ["Chicago", "London", "Montreal", "New York", "Ottawa", "Toronto", "Washington", "Oslo"]
-
+  cities = ["Chicago", "London", "Montreal", "New York","Lyon" ,"Paris","Ottawa", "Toronto", "Washington, DC", "Oslo"]
+  logfile = open("data/log.txt", "a+b")
+  
   for city in cities:
     try:
-      add_city_events(city)
+      events_size = add_city_events(city)
+      logfile.write("%s: %s now has %s events.\n"%(str(datetime.now()), city, events_size))
     except:
       print sys.exc_info()[0]
-  
-  print "No new events to be added" if new_events < 1 else "A total of %s events added"%(new_events)
+      
+  logfile.write("------------------------------------------------------------------------\n")
+  logfile.close()
   
 except:
   print sys.exc_info()[0]
