@@ -15,22 +15,23 @@ def add_friends_events(events, event_IDs):
 
 def add_events_to_dict(events, event_IDs, city_name):
   for eid in event_IDs:
-    #print "Already added event %s"%(eid) if eid in events.keys() else "Adding event %s"%(eid)
-    if not events.has_key(eid):
-      info_fql = """SELECT eid,name ,description ,attending_count ,unsure_count ,declined_count ,not_replied_count,location ,venue ,start_time ,end_time  from event where eid =  """ + eid
-      event_info = graph.fql(info_fql)
-      event = event_info['data'][0]
+    #Don't test if this event has been added. Attendees list might have changed
+    #if not events.has_key(eid):
+    
+    info_fql = """SELECT eid,name ,description ,attending_count ,unsure_count ,declined_count ,not_replied_count,location ,venue ,start_time ,end_time  from event where eid =  """ + eid
+    event_info = graph.fql(info_fql)
+    event = event_info['data'][0]
+    venue = event['venue']
+    
+    if 'dict' in str(type(venue)):
+      if (event['venue'].has_key('latitude')):
+        event['latitude'] = float(str(event['venue']['latitude']))
+      if (event['venue'].has_key('longitude')):
+        event['longitude'] = float(str(event['venue']['longitude']))
+      del event['venue']
       
-      venue = event['venue']
-      if 'dict' in str(type(venue)):
-        if (event['venue'].has_key('latitude')):
-          event['latitude'] = float(str(event['venue']['latitude']))
-        if (event['venue'].has_key('longitude')):
-          event['longitude'] = float(str(event['venue']['longitude']))
-        del event['venue']
-      
-      events[eid] = event
-      print "Added event:%s (%s) for city %s"%(eid, event['name'],city_name)
+    events[eid] = event
+    #print "Added event:%s (%s) for city %s"%(eid, event['name'],city_name)
 
 def add_city_events(city_name):
   events = {}
@@ -87,7 +88,7 @@ try:
     except:
       print sys.exc_info()[0]
       
-  logfile.write("------------------------------------------------------------------------\n")
+  logfile.write((80*"-")+"\n")
   logfile.close()
   
 except:
