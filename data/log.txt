@@ -362,3 +362,25 @@
 2014-04-07 23:01:12.200420: Washington, DC now has 695 events.
 2014-04-07 23:01:14.630207: Oslo now has 486 events.
 --------------------------------------------------------------------------------
+2014-04-08 17:33:27.849251: Chicago now has 594 events.
+2014-04-08 17:35:00.428435: London now has 661 events.
+2014-04-08 17:36:32.123817: Montreal now has 623 events.
+2014-04-08 17:38:03.014609: New York now has 917 events.
+2014-04-08 17:39:24.915292: Lyon now has 495 events.
+2014-04-08 17:40:53.724406: Paris now has 537 events.
+2014-04-08 17:42:04.440566: Ottawa now has 485 events.
+2014-04-08 17:43:28.730857: Toronto now has 600 events.
+2014-04-08 17:44:43.972012: Washington, DC now has 710 events.
+2014-04-08 17:45:54.992670: Oslo now has 491 events.
+--------------------------------------------------------------------------------
+2014-04-08 17:59:35.508245: Chicago now has 594 events.
+2014-04-08 18:01:09.348587: London now has 661 events.
+2014-04-08 18:02:37.769035: Montreal now has 623 events.
+2014-04-08 18:04:05.188768: New York now has 917 events.
+2014-04-08 18:05:28.156132: Lyon now has 495 events.
+2014-04-08 18:07:03.951170: Paris now has 537 events.
+2014-04-08 18:08:16.425305: Ottawa now has 486 events.
+2014-04-08 18:09:43.723775: Toronto now has 600 events.
+2014-04-08 18:10:58.002559: Washington, DC now has 710 events.
+2014-04-08 18:12:10.119238: Oslo now has 491 events.
+--------------------------------------------------------------------------------
